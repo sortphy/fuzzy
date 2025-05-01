@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Gorjeta - Sistema Fuzzy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculadora de Gorjeta - Sistema Fuzzy</h1>
+            <p class="description">
+                Use essa calculadora para determinar a gorjeta ideal baseada na qualidade da comida, 
+                do serviço e no tempo de atendimento utilizando lógica fuzzy.
+            </p>
+        </header>
+        
+        <div class="calculator">
+            <div class="inputs">
+                <div class="form-group">
+                    <label for="comida">Qualidade da Comida (0-10):</label>
+                    <div class="slider-container">
+                        <input type="range" id="comida" min="0" max="10" step="0.5" value="7">
+                        <input type="number" id="comida-value" min="0" max="10" step="0.5" value="7">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="servico">Qualidade do Serviço (0-10):</label>
+                    <div class="slider-container">
+                        <input type="range" id="servico" min="0" max="10" step="0.5" value="7">
+                        <input type="number" id="servico-value" min="0" max="10" step="0.5" value="7">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tempo">Tempo de Atendimento (minutos):</label>
+                    <div class="slider-container">
+                        <input type="range" id="tempo" min="1" max="15" step="0.5" value="5">
+                        <input type="number" id="tempo-value" min="1" max="15" step="0.5" value="5">
+                    </div>
+                </div>
+                
+                <div class="result-container">
+                    <div class="tip-label">Porcentagem de Gorjeta Recomendada</div>
+                    <div class="tip-amount" id="tip-result">10%</div>
+                    <div class="tip-label" id="tip-classification">Gorjeta Média</div>
+                </div>
+            </div>
+            
+            <div class="visualizations">
+                <div class="fuzzy-visualization">
+                    <div class="fuzzy-title">Qualidade da Comida</div>
+                    <div class="fuzzy-bars">
+                        <div class="fuzzy-bar">
+                            <div class="bar-label">Ruim</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="comida-ruim"></div>
+                            </div>
+                            <div class="bar-value" id="comida-ruim-value">0%</div>
+                        </div>
+                        <div class="fuzzy-bar">
+                            <div class="bar-label">Boa</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="comida-boa"></div>
+                            </div>
+                            <div class="bar-value" id="comida-boa-value">0%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fuzzy-visualization">
+                    <div class="fuzzy-title">Qualidade do Serviço</div>
+                    <div class="fuzzy-bars">
+                        <div class="fuzzy-bar">
+                            <div class="bar-label">Fraco</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="servico-fraco"></div>
+                            </div>
+                            <div class="bar-value" id="servico-fraco-value">0%</div>
+                        </div>
+                        <div class="fuzzy-bar">
+                            <div class="bar-label">Forte</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="servico-forte"></div>
+                            </div>
+                            <div class="bar-value" id="servico-forte-value">0%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fuzzy-visualization">
+                    <div class="fuzzy-title">Tempo de Atendimento</div>
+                    <div class="fuzzy-bars">
+                        <div class="fuzzy-bar">
+                            <div class="bar-label">Rápido</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="tempo-rapido"></div>
+                            </div>
+                            <div class="bar-value" id="tempo-rapido-value">0%</div>
+                        </div>
+                        <div class="fuzzy-bar">
+                            <div class="bar-label">Demorado</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" id="tempo-demorado"></div>
+                            </div>
+                            <div class="bar-value" id="tempo-demorado-value">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2>Como funciona?</h2>
+            <div class="fuzzy-explanation">
+                <p>Este sistema utiliza <strong>lógica fuzzy</strong> para determinar a gorjeta ideal baseada em três critérios:</p>
+                <ul>
+                    <li><strong>Qualidade da Comida:</strong> Avaliada de 0 (muito ruim) a 10 (excelente)</li>
+                    <li><strong>Qualidade do Serviço:</strong> Avaliada de 0 (muito fraco) a 10 (excelente)</li>
+                    <li><strong>Tempo de Atendimento:</strong> Medido em minutos, onde tempos menores são considerados melhores</li>
+                </ul>
+                <p>O sistema considera combinações desses fatores para recomendar uma porcentagem de gorjeta:</p>
+                <ul>
+                    <li><strong>Sem Gorjeta (0%):</strong> Para casos de comida ruim, serviço fraco ou atendimento muito demorado</li>
+                    <li><strong>Gorjeta Pequena (5%):</strong> Para casos de comida razoável com serviço aceitável</li>
+                    <li><strong>Gorjeta Média (10%):</strong> Para casos de boa comida ou bom serviço</li>
+                    <li><strong>Gorjeta Generosa (20%):</strong> Para casos de excelente comida e serviço com atendimento rápido</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funções de pertinência simples (pode usar valores entre 0 e 1 como entrada)
+        function comidaFuzzy(nota) {
+            return {
+                ruim: Math.max(0, 1 - nota / 10),  // Ex: nota 0 = 1 ruim, nota 10 = 0 ruim
+                boa: Math.min(1, nota / 10)        // Ex: nota 0 = 0 boa, nota 10 = 1 boa
+            };
+        }
+
+        function servicoFuzzy(nota) {
+            return {
+                fraco: Math.max(0, 1 - nota / 10),
+                forte: Math.min(1, nota / 10)
+            };
+        }
+
+        function atendimentoFuzzy(tempo) {
+            return {
+                demorado: Math.max(0, (tempo - 5) / 5), // tempo > 5 é demorado
+                rapido: Math.max(0, 1 - (tempo - 2.5) / 5) // tempo <= 5 é rápido
+            };
+        }
+
+        // Regras fuzzy (como você já definiu)
+        const regras = {
+            ruim: {
+                fraco: {
+                    rapido: "Pouca",
+                    demorado: "Sem"
+                },
+                forte: {
+                    rapido: "Media",
+                    demorado: "Sem"
+                }
+            },
+            boa: {
+                fraco: {
+                    rapido: "Media",
+                    demorado: "Sem"
+                },
+                forte: {
+                    rapido: "Generosa",
+                    demorado: "Sem"
+                }
+            }
+        };
+
+        // Saídas mapeadas para valores percentuais
+        const saidas = {
+            Sem: 0,
+            Pouca: 5,
+            Media: 10,
+            Generosa: 20
+        };
+
+        // Função principal para calcular gorjeta
+        function calcularGorjeta(comidaNota, servicoNota, tempoAtendimento) {
+            const comida = comidaFuzzy(comidaNota);
+            const servico = servicoFuzzy(servicoNota);
+            const atendimento = atendimentoFuzzy(tempoAtendimento);
+
+            let somaPesos = 0;
+            let somaSaidas = 0;
+
+            // Percorre todas as combinações possíveis
+            for (let c in comida) {
+                for (let s in servico) {
+                    for (let a in atendimento) {
+                        const intensidade = Math.min(comida[c], servico[s], atendimento[a]); // força da regra
+                        const saidaLinguistica = regras[c][s][a];
+                        const valorSaida = saidas[saidaLinguistica];
+
+                        somaPesos += intensidade;
+                        somaSaidas += intensidade * valorSaida;
+                    }
+                }
+            }
+
+            if (somaPesos === 0) return 0;
+            return (somaSaidas / somaPesos).toFixed(2); // valor crisp da gorjeta
+        }
+
+        // Elementos DOM
+        const comidaSlider = document.getElementById('comida');
+        const comidaValue = document.getElementById('comida-value');
+        const servicoSlider = document.getElementById('servico');
+        const servicoValue = document.getElementById('servico-value');
+        const tempoSlider = document.getElementById('tempo');
+        const tempoValue = document.getElementById('tempo-value');
+        const tipResult = document.getElementById('tip-result');
+        const tipClassification = document.getElementById('tip-classification');
+
+        // Elementos de visualização fuzzy
+        const comidaRuimBar = document.getElementById('comida-ruim');
+        const comidaBoaBar = document.getElementById('comida-boa');
+        const comidaRuimValue = document.getElementById('comida-ruim-value');
+        const comidaBoaValue = document.getElementById('comida-boa-value');
+
+        const servicoFracoBar = document.getElementById('servico-fraco');
+        const servicoForteBar = document.getElementById('servico-forte');
+        const servicoFracoValue = document.getElementById('servico-fraco-value');
+        const servicoForteValue = document.getElementById('servico-forte-value');
+
+        const tempoRapidoBar = document.getElementById('tempo-rapido');
+        const tempoDemoradoBar = document.getElementById('tempo-demorado');
+        const tempoRapidoValue = document.getElementById('tempo-rapido-value');
+        const tempoDemoradoValue = document.getElementById('tempo-demorado-value');
+
+        // Função para atualizar os campos
+        function updateUI() {
+            const comidaNota = parseFloat(comidaSlider.value);
+            const servicoNota = parseFloat(servicoSlider.value);
+            const tempoAtendimento = parseFloat(tempoSlider.value);
+
+            // Atualiza valores numéricos
+            comidaValue.value = comidaNota;
+            servicoValue.value = servicoNota;
+            tempoValue.value = tempoAtendimento;
+
+            // Calcula pertinências fuzzy
+            const comida = comidaFuzzy(comidaNota);
+            const servico = servicoFuzzy(servicoNota);
+            const atendimento = atendimentoFuzzy(tempoAtendimento);
+
+            // Atualiza barras de comida
+            comidaRuimBar.style.width = (comida.ruim * 100) + '%';
+            comidaBoaBar.style.width = (comida.boa * 100) + '%';
+            comidaRuimValue.textContent = Math.round(comida.ruim * 100) + '%';
+            comidaBoaValue.textContent = Math.round(comida.boa * 100) + '%';
+
+            // Atualiza barras de serviço
+            servicoFracoBar.style.width = (servico.fraco * 100) + '%';
+            servicoForteBar.style.width = (servico.forte * 100) + '%';
+            servicoFracoValue.textContent = Math.round(servico.fraco * 100) + '%';
+            servicoForteValue.textContent = Math.round(servico.forte * 100) + '%';
+
+            // Atualiza barras de tempo
+            tempoRapidoBar.style.width = (atendimento.rapido * 100) + '%';
+            tempoDemoradoBar.style.width = (atendimento.demorado * 100) + '%';
+            tempoRapidoValue.textContent = Math.round(atendimento.rapido * 100) + '%';
+            tempoDemoradoValue.textContent = Math.round(atendimento.demorado * 100) + '%';
+
+            // Calcula e atualiza a gorjeta
+            const gorjeta = calcularGorjeta(comidaNota, servicoNota, tempoAtendimento);
+            tipResult.textContent = gorjeta + '%';
+
+            // Atualiza a classificação da gorjeta
+            if (gorjeta <= 0) {
+                tipClassification.textContent = 'Sem Gorjeta';
+            } else if (gorjeta <= 5) {
+                tipClassification.textContent = 'Gorjeta Pequena';
+            } else if (gorjeta <= 10) {
+                tipClassification.textContent = 'Gorjeta Média';
+            } else {
+                tipClassification.textContent = 'Gorjeta Generosa';
+            }
+        }
+
+        // Event listeners para os sliders
+        comidaSlider.addEventListener('input', updateUI);
+        servicoSlider.addEventListener('input', updateUI);
+        tempoSlider.addEventListener('input', updateUI);
+
+        // Event listeners para entradas numéricas
+        comidaValue.addEventListener('change', function() {
+            comidaSlider.value = this.value;
+            updateUI();
+        });
+
+        servicoValue.addEventListener('change', function() {
+            servicoSlider.value = this.value;
+            updateUI();
+        });
+
+        tempoValue.addEventListener('change', function() {
+            tempoSlider.value = this.value;
+            updateUI();
+        });
+
+        // Inicializar UI
+        updateUI();
+    </script>
+</body>
+</html>
