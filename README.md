@@ -101,8 +101,4 @@ A implementação no repositório `sortphy/fuzzy` serve como um exemplo didátic
 
 O repositório `sortphy/fuzzy` apresenta uma implementação funcional e educativa de um Sistema de Inferência Fuzzy para o problema de cálculo de gorjetas. Embora não permita uma análise comparativa entre diferentes algoritmos fuzzy devido à presença de uma única implementação, a análise detalhada do código e da interface interativa revela um sistema coerente que aplica os princípios da lógica fuzzy – fuzzificação, inferência baseada em regras e defuzzificação – para mapear entradas subjetivas (qualidade) e objetivas (tempo) em uma recomendação de gorjeta quantitativa. O sistema demonstra a capacidade da lógica fuzzy de lidar com a imprecisão e a linguagem natural em problemas de tomada de decisão.
 
-## Referências
-
-*   Repositório GitHub analisado: [https://github.com/sortphy/fuzzy](https://github.com/sortphy/fuzzy)
-
 
